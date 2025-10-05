@@ -1,0 +1,28 @@
+import camion.*
+import cosas.*
+
+describe "Test de prueba"  {
+
+    test "Casos Prueba"{
+        arenaGranel.peso(50)
+        camion.cargar(arenaGranel)
+        camion.cargar(bumblebee)
+        assert.equals(true, camion.hayAlgoQuePese(50))
+        assert.equals(true, camion.hayAlgoQuePese(800))
+        assert.equals(false, camion.hayAlgoQuePese(500))
+        assert.equals(true, camion.todosSonPares())
+        assert.equals(1850, camion.pesoTotal())
+        assert.equals(false, camion.tieneExcesoDePeso())
+        assert.equals(arenaGranel, camion.elDeNivel(1))
+    }
+
+
+    test "test de niveles" {
+        camion.cargar(bateriaAntiAerea)
+        camion.cargar(knightRider)
+        assert.equals(#{bateriaAntiAerea}, camion.superaNivel(15))
+        assert.equals(#{bateriaAntiAerea,knightRider}, camion.superaNivel(2))
+    }
+    
+}
+

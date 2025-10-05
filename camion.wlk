@@ -2,8 +2,34 @@ import cosas.*
 
 object camion {
 	const property cosas = #{}
+
+	const pesoTara = 1000
+	const pesoMaximosSoportado = 2500
+
+	method listaDePesos() = cosas.map({cosa => cosa.peso() })
+
+	method listaDeNivelesDePeligro() = cosas.map({cosa => cosa.nivelPeligrosidad() }) 
 		
 	method cargar(unaCosa) {
-		cosas.add(unaCosa)
+		if(not cosas.contains(unaCosa)) cosas.add(unaCosa) else cosas.add({})
 	}
+
+	method descargar(unaCosa) {
+		if(cosas.contains(unaCosa)) cosas.remove(unaCosa) else cosas.remove({})
+	}
+
+	method todosSonPares() = self.listaDePesos().all({peso => peso % 2 == 0})
+
+	method hayAlgoQuePese(_peso) = self.listaDePesos().any({ pesoCosa => pesoCosa == _peso })
+
+	method pesoTotal() = pesoTara + self.listaDePesos().sum()
+
+	method tieneExcesoDePeso() = self.pesoTotal() > pesoMaximosSoportado
+
+
+	method elDeNivel(nivelDePeligro) = cosas.find({cosa => cosa.nivelPeligrosidad() == nivelDePeligro }) //debe existir alguno del nivel que se busca
+
+	method superaNivel(_nivel) = cosas.filter({cosa => cosa.nivelPeligrosidad() > _nivel})
+
+	method superaElNivelDe(_cosa) = cosas.filter({cosa => cosa.nivelPeligrosidad() > _cosa.nivelPeligrosidad()} )
 }
