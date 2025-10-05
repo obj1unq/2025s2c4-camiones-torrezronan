@@ -32,4 +32,12 @@ object camion {
 	method superaNivel(_nivel) = cosas.filter({cosa => cosa.nivelPeligrosidad() > _nivel})
 
 	method superaElNivelDe(_cosa) = cosas.filter({cosa => cosa.nivelPeligrosidad() > _cosa.nivelPeligrosidad()} )
+
+
+	method puedeCircularSegunNivel(_nivel) = cosas.any({ cosa => cosa.nivelPeligrosidad()< _nivel  }) && not self.tieneExcesoDePeso()
+
+	method tieneAlgoEntre(min,max) = self.listaDePesos().any({peso => peso > min && peso < max})
+
+	method laCosaMasPesada() = cosas.find({cosa => cosa.peso() == self.pesoDelMasPesado()})
+	method pesoDelMasPesado() = cosas.map({ cosa => cosa.peso() }).max()
 }

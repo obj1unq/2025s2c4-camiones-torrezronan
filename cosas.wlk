@@ -46,3 +46,26 @@ object residuosRadiactivos {
 	var property peso = 0
 	method nivelPeligrosidad() =  200
 }
+
+
+object contenedorPortuario {
+
+	const property contenido = #{}
+
+	const pesoVacio = 100
+
+	method peso() = contenido.map({cosa => cosa.peso() }).sum() + pesoVacio 
+
+	method ponerDentro(cosa){contenido.add(cosa) }
+
+	method nivelPeligrosidad() = if(contenido.isEmpty()) 0 else contenido.map({cosa => cosa.nivelPeligrosidad()}).max()
+  
+}
+
+
+object embalaje {
+	const property envuelve = 0
+	method peso() = envuelve.peso()
+	method nivelPeligrosidad() = envuelve.nivelPeligrosidad()/2
+}
+

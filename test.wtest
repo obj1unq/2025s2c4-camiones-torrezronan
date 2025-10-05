@@ -22,7 +22,37 @@ describe "Test de prueba"  {
         camion.cargar(knightRider)
         assert.equals(#{bateriaAntiAerea}, camion.superaNivel(15))
         assert.equals(#{bateriaAntiAerea,knightRider}, camion.superaNivel(2))
+        assert.equals(#{}, camion.superaNivel(200))
+        assert.equals(#{bateriaAntiAerea}, camion.superaElNivelDe(bumblebee))
+        assert.equals(#{bateriaAntiAerea,knightRider}, camion.superaElNivelDe(ladrillos))
+    }
+
+
+    test "puede circular" {
+
+        camion.cargar(bumblebee)
+        ladrillos.cantidadDeLadrillos(300)
+        camion.cargar(ladrillos)
+        assert.equals(true, camion.puedeCircularSegunNivel(20))
+        ladrillos.cantidadDeLadrillos(400)
+        camion.descargar(ladrillos)
+        camion.cargar(ladrillos)
+        assert.equals(false, camion.puedeCircularSegunNivel(20))
+    }
+
+    test "contenedor" {
+        contenedorPortuario.ponerDentro(knightRider)
+        assert.equals(600, contenedorPortuario.peso())
+        assert.equals(10, contenedorPortuario.nivelPeligrosidad())        
     }
     
+    test "tiene algo entre 2" {
+        camion.cargar(bumblebee)
+        ladrillos.cantidadDeLadrillos(300)
+        camion.cargar(ladrillos)
+        assert.equals(true, camion.tieneAlgoEntre(5,700))
+        assert.equals(false,camion.tieneAlgoEntre(900,1000))
+        assert.equals(bumblebee,camion.laCosaMasPesada())
+    }
 }
 
