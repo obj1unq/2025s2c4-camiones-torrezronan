@@ -43,4 +43,8 @@ object camion {
 	method pesoDelMasPesado() = cosas.map({ cosa => cosa.peso() }).max()
 
 	method cantidadDeBultos() = cosas.map({cosa => cosa.bultosQueOcupa() }).sum()
+
+	method choco() {
+		cosas.forEach({cosa => cosa.chocamos() })
+	}
 }

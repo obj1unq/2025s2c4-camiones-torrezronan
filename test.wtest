@@ -86,5 +86,28 @@ describe "Test de prueba"  {
         camion.cargar(arenaGranel)
         assert.equals(4, camion.cantidadDeBultos())
     }
+
+
+    test "Choques caso 1" {
+        contenedorPortuario.ponerDentro(knightRider)
+        contenedorPortuario.ponerDentro(bumblebee)
+        residuosRadiactivos.peso(30)
+        embalaje.envuelve(residuosRadiactivos)
+        arenaGranel.peso(50)
+        ladrillos.cantidadDeLadrillos(100)
+        bateriaAntiAerea.estado(1)
+        camion.cargar(contenedorPortuario)
+        camion.cargar(residuosRadiactivos)
+        camion.cargar(embalaje)
+        camion.cargar(arenaGranel)
+        camion.cargar(ladrillos)
+        camion.cargar(bateriaAntiAerea)
+        camion.choco()
+        assert.equals(0, bumblebee.estado())
+        assert.equals(45, residuosRadiactivos.peso()) // en el ejemplo dice que espera 30 pero no da si lleva 30 y al chocar se le agregan 15k
+        assert.equals(70, arenaGranel.peso())
+        assert.equals(88, ladrillos.cantidadDeLadrillos())
+        assert.equals(0, bateriaAntiAerea.estado())
+    }
 }
 
