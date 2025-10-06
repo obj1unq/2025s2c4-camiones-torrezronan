@@ -22,9 +22,9 @@ object arenaGranel {
 object bumblebee {
 	method peso() = 800
 
-	var property estado =  1 //Si es auto el estado es 1, si es robot el estado es 0
+	var property estado =  1 //Si es auto el estado es 1, si es robot el estado es 0 en este caso es auto hasta que se lo cambie
 
-	method nivelPeligrosidad() = if(self.esAuto())30 else 15
+	method nivelPeligrosidad() = if(self.esAuto())15 else 30
 	
 	method esAuto()= estado == 1
 

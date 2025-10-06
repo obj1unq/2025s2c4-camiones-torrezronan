@@ -27,14 +27,16 @@ object camion {
 	method tieneExcesoDePeso() = self.pesoTotal() > pesoMaximosSoportado
 
 
-	method elDeNivel(nivelDePeligro) = cosas.find({cosa => cosa.nivelPeligrosidad() == nivelDePeligro }) //debe existir alguno del nivel que se busca
+	method elDeNivel(nivelDePeligro) = cosas.find({cosa => cosa.nivelPeligrosidad() == nivelDePeligro }) //debe existir alguno del nivel que se busca o se puede usar filter y devuelve una coleccion vacia
 
 	method superaNivel(_nivel) = cosas.filter({cosa => cosa.nivelPeligrosidad() > _nivel})
 
 	method superaElNivelDe(_cosa) = cosas.filter({cosa => cosa.nivelPeligrosidad() > _cosa.nivelPeligrosidad()} )
 
 
-	method puedeCircularSegunNivel(_nivel) = cosas.any({ cosa => cosa.nivelPeligrosidad()< _nivel  }) && not self.tieneExcesoDePeso()
+	method puedeCircularSegunNivel(_nivel) =  not self.tieneExcesoDePeligrosidad(_nivel) && not self.tieneExcesoDePeso()
+
+	method tieneExcesoDePeligrosidad(nivel) = cosas.any({ cosa =>  cosa.nivelPeligrosidad() > nivel  })	 
 
 	method tieneAlgoEntre(min,max) = self.listaDePesos().any({peso => peso > min && peso < max})
 
@@ -47,4 +49,47 @@ object camion {
 	method choco() {
 		cosas.forEach({cosa => cosa.chocamos() })
 	}
+
+
+	method transportar(destino,camino) {
+
+		if( self.elCaminoSoportaElViaje(camino) ) 
+			self.descargarYVaciarCamionEn(destino)
+			
+		else return"no se puede transportar"
+	}
+
+	method elCaminoSoportaElViaje(tipoCamino)  {
+		if(tipoCamino.restriccionesDeTipo() == "restricciones De Nivel") {return self.puedeCircularSegunNivel(tipoCamino.circulaHastaNivel())} 
+			else if (tipoCamino.restriccionesDeTipo() == "restricciones De Peso"){return self.pesoTotal() < tipoCamino.circulaHastaPeso()} else {return false} 
+	}
+
+	method vaciarCamion() { cosas.clear() }
+
+	method descargarYVaciarCamionEn(_destino) {
+		_destino.descargarCamion(cosas)
+		self.vaciarCamion()
+	}
+}
+
+
+object almacen {
+	const property bodega = #{}
+	
+	method descargarCamion(_cosas) {
+		bodega.addAll(_cosas)
+	} 
+}
+
+
+object rutaNueve {
+	
+	
+	const property circulaHastaNivel = 20
+	method restriccionesDeTipo() = "restricciones De Nivel" 
+}
+
+object rutaVecinal{
+	var property circulaHastaPeso = 0
+	method restriccionesDeTipo() = "restricciones De Peso"
 }

@@ -38,6 +38,11 @@ describe "Test de prueba"  {
         camion.descargar(ladrillos)
         camion.cargar(ladrillos)
         assert.equals(false, camion.puedeCircularSegunNivel(20))
+        camion.descargar(ladrillos)
+        camion.descargar(bumblebee)
+        bumblebee.estado(0) // esto cambia a robot
+        camion.cargar(bumblebee)
+        assert.equals(false, camion.puedeCircularSegunNivel(20))
     }
 
     test "contenedor" {
@@ -108,6 +113,32 @@ describe "Test de prueba"  {
         assert.equals(70, arenaGranel.peso())
         assert.equals(88, ladrillos.cantidadDeLadrillos())
         assert.equals(0, bateriaAntiAerea.estado())
+    }
+
+
+
+    test "Transportes caso exitoso" {
+        almacen.bodega().add(knightRider)
+        almacen.bodega().add(residuosRadiactivos)
+        camion.cargar(bumblebee)
+        camion.cargar(arenaGranel)
+        assert.equals(true, camion.elCaminoSoportaElViaje(rutaNueve))
+        camion.transportar(almacen, rutaNueve)
+        assert.equals(true,camion.cosas().asList().isEmpty() )
+        assert.equals(#{knightRider,residuosRadiactivos,bumblebee,arenaGranel}, almacen.bodega())
+    }
+
+
+    test "transporte caso fallido" {
+        almacen.bodega().add(knightRider)
+        almacen.bodega().add(residuosRadiactivos)
+        bumblebee.estado(0) // esto cambia a robot
+        camion.cargar(bumblebee)
+        camion.cargar(arenaGranel)
+        assert.equals(false, camion.puedeCircularSegunNivel(20))
+        assert.equals("no se puede transportar", camion.transportar(almacen,rutaNueve))
+        assert.equals(true ,#{ bumblebee,arenaGranel} == camion.cosas() )
+        assert.equals(#{knightRider,residuosRadiactivos}, almacen.bodega())
     }
 }
 
