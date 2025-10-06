@@ -129,7 +129,7 @@ describe "Test de prueba"  {
     }
 
 
-    test "transporte caso fallido" {
+    test "transporte caso fallido por peligrosidad" {
         almacen.bodega().add(knightRider)
         almacen.bodega().add(residuosRadiactivos)
         bumblebee.estado(0) // esto cambia a robot
@@ -137,6 +137,41 @@ describe "Test de prueba"  {
         camion.cargar(arenaGranel)
         assert.equals(false, camion.puedeCircularSegunNivel(20))
         assert.equals("no se puede transportar", camion.transportar(almacen,rutaNueve))
+        assert.equals(true ,#{ bumblebee,arenaGranel} == camion.cosas() )
+        assert.equals(#{knightRider,residuosRadiactivos}, almacen.bodega())
+    }
+
+    test "transporte fallido por peso" {
+        almacen.bodega().add(knightRider)
+        almacen.bodega().add(residuosRadiactivos)
+        arenaGranel.peso(2000)
+        camion.cargar(arenaGranel)
+        camion.cargar(bumblebee)
+        assert.equals("no se puede transportar", camion.transportar(almacen,rutaNueve))
+        assert.equals(true, camion.tieneExcesoDePeso())
+        assert.equals(true ,#{ bumblebee,arenaGranel} == camion.cosas() )
+        assert.equals(#{knightRider,residuosRadiactivos}, almacen.bodega())
+    }
+
+
+    test "transporte por caminos vecinales exitoso" {
+        rutaVecinal.circulaHastaPeso(2000)
+        almacen.bodega().add(knightRider)
+        almacen.bodega().add(residuosRadiactivos)
+        camion.cargar(arenaGranel)
+        camion.cargar(bumblebee)
+        camion.transportar(almacen, rutaVecinal)
+        assert.equals(true,camion.cosas().asList().isEmpty() )
+        assert.equals(#{knightRider,residuosRadiactivos,bumblebee,arenaGranel}, almacen.bodega())
+    }
+
+    test "transporte por camino Vecinal fallido" {
+        almacen.bodega().add(knightRider)
+        almacen.bodega().add(residuosRadiactivos)
+        camion.cargar(arenaGranel)
+        camion.cargar(bumblebee)
+        assert.equals("no se puede transportar", camion.transportar(almacen,rutaVecinal))
+        assert.equals(false, camion.puedeCircularSegunPesoPorCamino(rutaVecinal))
         assert.equals(true ,#{ bumblebee,arenaGranel} == camion.cosas() )
         assert.equals(#{knightRider,residuosRadiactivos}, almacen.bodega())
     }

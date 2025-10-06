@@ -61,8 +61,10 @@ object camion {
 
 	method elCaminoSoportaElViaje(tipoCamino)  {
 		if(tipoCamino.restriccionesDeTipo() == "restricciones De Nivel") {return self.puedeCircularSegunNivel(tipoCamino.circulaHastaNivel())} 
-			else if (tipoCamino.restriccionesDeTipo() == "restricciones De Peso"){return self.pesoTotal() < tipoCamino.circulaHastaPeso()} else {return false} 
+			else  {return self.puedeCircularSegunPesoPorCamino(tipoCamino)  }  
 	}
+
+	method puedeCircularSegunPesoPorCamino(_tipoCamino) = (self.pesoTotal() < _tipoCamino.circulaHastaPeso()) && not self.tieneExcesoDePeso()
 
 	method vaciarCamion() { cosas.clear() }
 
