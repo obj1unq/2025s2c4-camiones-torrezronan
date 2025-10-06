@@ -54,5 +54,37 @@ describe "Test de prueba"  {
         assert.equals(false,camion.tieneAlgoEntre(900,1000))
         assert.equals(bumblebee,camion.laCosaMasPesada())
     }
+
+    test "test Bultos que ocupan caso 1" {
+        contenedorPortuario.ponerDentro(knightRider)
+        contenedorPortuario.ponerDentro(bumblebee)
+        embalaje.envuelve(residuosRadiactivos)
+        camion.cargar(contenedorPortuario)
+        camion.cargar(embalaje)
+        camion.cargar(arenaGranel)
+        ladrillos.cantidadDeLadrillos(50)
+        camion.cargar(ladrillos)
+        bateriaAntiAerea.estado(0)
+        camion.cargar(bateriaAntiAerea)
+        assert.equals(9, camion.cantidadDeBultos())
+    }
+
+
+    test "test Bultos Caso 2" {
+        ladrillos.cantidadDeLadrillos(150)
+        camion.cargar(ladrillos)
+        bateriaAntiAerea.estado(1)
+        camion.cargar(bateriaAntiAerea)
+        camion.cargar(contenedorPortuario)
+        assert.equals(5, camion.cantidadDeBultos())
+    }
+
+
+    test "test bultos caso 3" {
+        ladrillos.cantidadDeLadrillos(350)
+        camion.cargar(ladrillos)
+        camion.cargar(arenaGranel)
+        assert.equals(4, camion.cantidadDeBultos())
+    }
 }
 

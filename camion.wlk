@@ -39,5 +39,8 @@ object camion {
 	method tieneAlgoEntre(min,max) = self.listaDePesos().any({peso => peso > min && peso < max})
 
 	method laCosaMasPesada() = cosas.find({cosa => cosa.peso() == self.pesoDelMasPesado()})
+
 	method pesoDelMasPesado() = cosas.map({ cosa => cosa.peso() }).max()
+
+	method cantidadDeBultos() = cosas.map({cosa => cosa.bultosQueOcupa() }).sum()
 }
