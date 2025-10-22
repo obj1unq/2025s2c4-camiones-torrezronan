@@ -69,7 +69,7 @@ describe "Test de prueba"  {
         camion.cargar(arenaGranel)
         ladrillos.cantidadDeLadrillos(50)
         camion.cargar(ladrillos)
-        bateriaAntiAerea.estado(0)
+        bateriaAntiAerea.estado(false)
         camion.cargar(bateriaAntiAerea)
         assert.equals(9, camion.cantidadDeBultos())
     }
@@ -78,7 +78,7 @@ describe "Test de prueba"  {
     test "test Bultos Caso 2" {
         ladrillos.cantidadDeLadrillos(150)
         camion.cargar(ladrillos)
-        bateriaAntiAerea.estado(1)
+        bateriaAntiAerea.estado(true)
         camion.cargar(bateriaAntiAerea)
         camion.cargar(contenedorPortuario)
         assert.equals(5, camion.cantidadDeBultos())
@@ -100,7 +100,7 @@ describe "Test de prueba"  {
         embalaje.envuelve(residuosRadiactivos)
         arenaGranel.peso(50)
         ladrillos.cantidadDeLadrillos(100)
-        bateriaAntiAerea.estado(1)
+        bateriaAntiAerea.estado(false)
         camion.cargar(contenedorPortuario)
         camion.cargar(residuosRadiactivos)
         camion.cargar(embalaje)
@@ -112,7 +112,7 @@ describe "Test de prueba"  {
         assert.equals(45, residuosRadiactivos.peso()) // en el ejemplo dice que espera 30 pero no da si lleva 30 y al chocar se le agregan 15k
         assert.equals(70, arenaGranel.peso())
         assert.equals(88, ladrillos.cantidadDeLadrillos())
-        assert.equals(0, bateriaAntiAerea.estado())
+        assert.equals(false, bateriaAntiAerea.estado())
     }
 
 

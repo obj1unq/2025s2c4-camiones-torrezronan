@@ -56,18 +56,21 @@ object ladrillos {
 object bateriaAntiAerea {
 	method peso() = if(self.estaConMisiles()) 300 else 200
 
-	var property estado =  1 //Si esta con misiles el estado es 1 de lo contrario es 0 esta descargado
+	var property estado = true // true sin tiene misiles y false si no los tiene
+	
 
 	method nivelPeligrosidad() = if(self.estaConMisiles()) 100 else 0
 	
-	method estaConMisiles()= estado == 1
+	method estaConMisiles() = self.estado()
 
 	method bultosQueOcupa() = if(self.estaConMisiles()){2} else 1
 
 	method chocamos() {
-		self.estado(0)
+		self.estado(false)
 	}
 }
+
+
 
 object residuosRadiactivos {
 	var property peso = 0
