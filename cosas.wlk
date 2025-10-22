@@ -22,16 +22,30 @@ object arenaGranel {
 object bumblebee {
 	method peso() = 800
 
-	var property estado =  1 //Si es auto el estado es 1, si es robot el estado es 0 en este caso es auto hasta que se lo cambie
+	var property estado =  auto //Si es auto el estado es 1, si es robot el estado es 0 en este caso es auto hasta que se lo cambie
 
-	method nivelPeligrosidad() = if(self.esAuto())15 else 30
+	method nivelPeligrosidad() = estado.nivelDePeligro()
 	
-	method esAuto()= estado == 1
-
 	method bultosQueOcupa() = 2
 
 	method chocamos() {
-		estado = if(estado== 1){0} else {1}
+		estado.chocar(self)
+	}
+
+}
+
+object auto {
+	const property nivelDePeligro = 15
+	method chocar(autobot) {
+		autobot.estado(robot)
+	}
+}
+
+object robot {
+	const property nivelDePeligro = 30
+	method chocar(autobot) {
+		autobot.estado(self)
+
 	}
 }
 

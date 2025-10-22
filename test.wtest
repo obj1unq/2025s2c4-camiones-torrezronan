@@ -40,7 +40,7 @@ describe "Test de prueba"  {
         assert.equals(false, camion.puedeCircularSegunNivel(20))
         camion.descargar(ladrillos)
         camion.descargar(bumblebee)
-        bumblebee.estado(0) // esto cambia a robot
+        bumblebee.estado(robot) // esto cambia a robot
         camion.cargar(bumblebee)
         assert.equals(false, camion.puedeCircularSegunNivel(20))
     }
@@ -108,7 +108,7 @@ describe "Test de prueba"  {
         camion.cargar(ladrillos)
         camion.cargar(bateriaAntiAerea)
         camion.choco()
-        assert.equals(0, bumblebee.estado())
+        assert.equals(robot, bumblebee.estado())
         assert.equals(45, residuosRadiactivos.peso()) // en el ejemplo dice que espera 30 pero no da si lleva 30 y al chocar se le agregan 15k
         assert.equals(70, arenaGranel.peso())
         assert.equals(88, ladrillos.cantidadDeLadrillos())
@@ -132,7 +132,7 @@ describe "Test de prueba"  {
     test "transporte caso fallido por peligrosidad" {
         almacen.bodega().add(knightRider)
         almacen.bodega().add(residuosRadiactivos)
-        bumblebee.estado(0) // esto cambia a robot
+        bumblebee.estado(robot) // esto cambia a robot
         camion.cargar(bumblebee)
         camion.cargar(arenaGranel)
         assert.equals(false, camion.puedeCircularSegunNivel(20))
