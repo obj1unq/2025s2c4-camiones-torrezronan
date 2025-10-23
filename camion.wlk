@@ -60,11 +60,10 @@ object camion {
 	}
 
 	method elCaminoSoportaElViaje(tipoCamino)  {
-		if(tipoCamino.restriccionesDeTipo() == "restricciones De Nivel") {return self.puedeCircularSegunNivel(tipoCamino.circulaHastaNivel())} 
-			else  {return self.puedeCircularSegunPesoPorCamino(tipoCamino)  }  
+		return tipoCamino.puedeCircularEnEstaRuta(self)  
 	}
 
-	method puedeCircularSegunPesoPorCamino(_tipoCamino) = (self.pesoTotal() < _tipoCamino.circulaHastaPeso()) && not self.tieneExcesoDePeso()
+	method puedeCircularSegunPeso(pesoMaximo) = (self.pesoTotal() < pesoMaximo) && not self.tieneExcesoDePeso()
 
 	method vaciarCamion() { cosas.clear() }
 
@@ -86,12 +85,14 @@ object almacen {
 
 object rutaNueve {
 	
+	const property peligrosidadMaxima = 20
 	
-	const property circulaHastaNivel = 20
-	method restriccionesDeTipo() = "restricciones De Nivel" 
+	method puedeCircularEnEstaRuta(vehiculo) =  vehiculo.puedeCircularSegunNivel(peligrosidadMaxima) 
 }
 
 object rutaVecinal{
-	var property circulaHastaPeso = 0
-	method restriccionesDeTipo() = "restricciones De Peso"
+	
+	var property pesoMaximo = 0
+	
+	method puedeCircularEnEstaRuta(vehiculo) = vehiculo.puedeCircularSegunPeso(pesoMaximo)
 }
