@@ -11,11 +11,14 @@ object camion {
 	method listaDeNivelesDePeligro() = cosas.map({cosa => cosa.nivelPeligrosidad() }) 
 		
 	method cargar(unaCosa) {
-		if(not cosas.contains(unaCosa)) cosas.add(unaCosa) else cosas.add({})
+		if(not cosas.contains(unaCosa)) cosas.add(unaCosa) else throw new MyException() 
+		
 	}
 
+	
+
 	method descargar(unaCosa) {
-		if(cosas.contains(unaCosa)) cosas.remove(unaCosa) else cosas.remove({})
+		if(cosas.contains(unaCosa)) cosas.remove(unaCosa) else throw new MyException()
 	}
 
 	method todosSonPares() = self.listaDePesos().all({peso => peso % 2 == 0})
@@ -27,7 +30,7 @@ object camion {
 	method tieneExcesoDePeso() = self.pesoTotal() > pesoMaximosSoportado
 
 
-	method elDeNivel(nivelDePeligro) = cosas.find({cosa => cosa.nivelPeligrosidad() == nivelDePeligro }) //debe existir alguno del nivel que se busca o se puede usar filter y devuelve una coleccion vacia
+	method elDeNivel(nivelDePeligro) = cosas.find({cosa => cosa.nivelPeligrosidad() == nivelDePeligro }) 
 
 	method superaNivel(_nivel) = cosas.filter({cosa => cosa.nivelPeligrosidad() > _nivel})
 
@@ -71,7 +74,17 @@ object camion {
 		_destino.descargarCamion(cosas)
 		self.vaciarCamion()
 	}
+
+
+	
 }
+
+class MyException inherits wollok.lang.Exception {}
+
+
+
+
+
 
 
 object almacen {

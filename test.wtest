@@ -3,7 +3,34 @@ import cosas.*
 
 describe "Test de prueba"  {
 
-    test "Casos Prueba"{
+    test "cargar y descargar cosas, no puede descargar si el objeto no esta en el camion y no puede cargar si el objeto ya esta en el camion" {
+
+        camion.cargar(ladrillos)
+        assert.throwsException({camion.cargar(ladrillos)})
+        camion.vaciarCamion()
+        assert.throwsException({camion.descargar(ladrillos)})
+    }
+
+
+
+    test "encuentra algo en el camion con un nivel de peligrosidad determinado si no encuentra nada rompe" {
+        bumblebee.estado(auto)
+        camion.cargar(bumblebee)
+        bateriaAntiAerea.estado(false)
+        camion.cargar(bateriaAntiAerea)
+        camion.cargar(residuosRadiactivos)
+        assert.equals(bateriaAntiAerea, camion.elDeNivel(0))
+        assert.equals(bumblebee, camion.elDeNivel(15))
+        assert.equals(residuosRadiactivos, camion.elDeNivel(200))
+        assert.throwsException({ camion.elDeNivel(30) })
+        bumblebee.estado(robot)
+        assert.equals(bumblebee, camion.elDeNivel(30))
+        bateriaAntiAerea.estado(true)
+        assert.equals(bateriaAntiAerea, camion.elDeNivel(100))
+      
+    }
+
+    test "Saber si en el camiopn hay algo que pese igual que un peso determinado"{
         arenaGranel.peso(50)
         camion.cargar(arenaGranel)
         camion.cargar(bumblebee)
@@ -17,7 +44,7 @@ describe "Test de prueba"  {
     }
 
 
-    test "test de niveles" {
+    test "cosas peligrosas que esten en el camion y sean mas peligrosas que otras y cosas que esten cargadas y superen un nivel de peligro determinado" {
         camion.cargar(bateriaAntiAerea)
         camion.cargar(knightRider)
         assert.equals(#{bateriaAntiAerea}, camion.superaNivel(15))
