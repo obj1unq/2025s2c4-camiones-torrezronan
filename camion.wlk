@@ -56,11 +56,11 @@ object camion {
 
 	method transportar(destino,camino) {
 
-		if( self.elCaminoSoportaElViaje(camino) ) 
-			self.descargarYVaciarCamionEn(destino)
-			
-		else return"no se puede transportar"
+		self.validarCaminoSoporta(camino)
+		self.descargarYVaciarCamionEn(destino)				
 	}
+
+	method validarCaminoSoporta(tipoCamino) = if(not self.elCaminoSoportaElViaje(tipoCamino)){self.error("El camino no soporta este camion")}
 
 	method elCaminoSoportaElViaje(tipoCamino)  {
 		return tipoCamino.puedeCircularEnEstaRuta(self)  
@@ -70,8 +70,8 @@ object camion {
 
 	method vaciarCamion() { cosas.clear() }
 
-	method descargarYVaciarCamionEn(_destino) {
-		_destino.descargarCamion(cosas)
+	method descargarYVaciarCamionEn(destino) {
+		destino.descargarCamion(cosas)
 		self.vaciarCamion()
 	}
 
@@ -80,10 +80,6 @@ object camion {
 }
 
 class MyException inherits wollok.lang.Exception {}
-
-
-
-
 
 
 
