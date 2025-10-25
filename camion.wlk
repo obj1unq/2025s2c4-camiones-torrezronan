@@ -10,16 +10,21 @@ object camion {
 
 	method listaDeNivelesDePeligro() = cosas.map({cosa => cosa.nivelPeligrosidad() }) 
 		
-	method cargar(unaCosa) {
-		if(not cosas.contains(unaCosa)) cosas.add(unaCosa) else throw new MyException() 
-		
+	method cargar(unaCosa) { 
+		self.validarSiPuedeCargarUnaCosa(unaCosa)
+		cosas.add(unaCosa)
 	}
 
-	
+	method validarSiPuedeCargarUnaCosa(cosa) = if(self.contieneUnacosa(cosa)) self.error("No se puede cargar, el objeto ya esta en el camion")
+
+	method contieneUnacosa(unaCosa) = cosas.contains(unaCosa)	
 
 	method descargar(unaCosa) {
-		if(cosas.contains(unaCosa)) cosas.remove(unaCosa) else throw new MyException()
+		self.validarSiPuedeDescargarUnaCosa(unaCosa)
+		cosas.remove(unaCosa)
 	}
+
+	method validarSiPuedeDescargarUnaCosa(cosa) = if(not self.contieneUnacosa(cosa))self.error("No se puede descargar, el objeto no esta cargado")
 
 	method todosSonPares() = self.listaDePesos().all({peso => peso % 2 == 0})
 
